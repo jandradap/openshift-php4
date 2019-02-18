@@ -175,7 +175,7 @@ COPY config/apache/000-default /etc/apache2/sites-available/default
 COPY config/apache/ports.conf /etc/apache2/
 WORKDIR /var/www/html
 
-COPY code/phpinfo.php /var/www/html/
+COPY code/index.php /var/www/html/
 
 RUN useradd default -u 1001 -c "Default Application User" -G www-data -d /var/www/html -s /sbin/nologin \
   && sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=default/g" /etc/apache2/envvars \
