@@ -190,7 +190,7 @@ RUN sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=default/g" /etc/apache2/e
   && chown -R default /var/lib/php/session \
   && chown -R default /var/log/apache2 \
   && chmod -R a+rwx /var/log/apache2 \
-  && chmod -R a+rwx /var/run/apache
+  && chmod -R a+rwx /var/run/apache2
 
 WORKDIR /var/www/html
 
