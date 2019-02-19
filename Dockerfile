@@ -186,11 +186,11 @@ RUN sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=default/g" /etc/apache2/e
   && sed -i "s/APACHE_PID_FILE=\/var\/run\/apache2/APACHE_PID_FILE=\/var\/run\/apache2\/apache2/g" /etc/apache2/envvars \
   && chown -R default /var/run/apache* \
   && chown -R default /etc/apache2 \
-  && chown -R default /var/lib/php/session
-
-RUN ln -sf /dev/stdout /var/log/apache2/access.log
-RUN ln -sf /dev/stderr /var/log/apache2/error.log
-RUN ln -sf /dev/null /var/log/apache2/other_vhosts_access.log
+  && chown -R default /var/lib/php/session \
+	&& ln -sf /dev/stdout /var/log/apache2/access.log \
+	&& ln -sf /dev/stderr /var/log/apache2/error.log \
+	&& ln -sf /dev/null /var/log/apache2/other_vhosts_access.log \
+  && chown -R default /var/log/apache2
 
 WORKDIR /var/www/html
 
