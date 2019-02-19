@@ -68,6 +68,8 @@ RUN apt-get update \
     elinks \
     apache2-threaded-dev \
     apache2.2-common \
+    mysql-client \
+    telnet \
     --no-install-recommends \
     graphicsmagick spawn-fcgi \
   && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
