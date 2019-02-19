@@ -77,8 +77,7 @@ RUN apt-get update \
   && rm -r /var/lib/apt/lists/*
 
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html \
-  && useradd default -u 1001 -c "Default Application User" -G www-data -d /var/www/html -s /sbin/nologin \
-  && chown -R default:www-data /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html
+  && chown -R www-data:root /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html
 
 RUN mkdir -p /tmp/install/ \
   && cd /tmp/install \
@@ -169,8 +168,7 @@ RUN mkdir -p /tmp/install/ \
   && make install \
   && rm -rf /tmp/install \
   && mkdir -p /var/lib/php/session \
-  && chown -R default:www-data /var/lib/php/ \
-  && chmod -R a+rwx /var/lib/php/session
+  && chown -R www-data:www-data /var/lib/php/
 
 RUN mkdir -p /etc/php4/conf.d/ \
   && echo 'date.timezone = "Europe/Madrid"' > /etc/php4/conf.d/10_timezone.ini
@@ -183,12 +181,9 @@ COPY config/apache/ports.conf /etc/apache2/
 
 COPY code/index.php /var/www/html/
 
-RUN sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=default/g" /etc/apache2/envvars \
-  && sed -i "s/APACHE_PID_FILE=\/var\/run\/apache2/APACHE_PID_FILE=\/var\/run\/apache2\/apache2/g" /etc/apache2/envvars \
-  && chown -R default /var/run/apache* \
-  && chown -R default /etc/apache2 \
-  && chown -R default /var/lib/php/session \
-  && chown -R default /var/log/apache2 \
+RUN sed -i "s/APACHE_PID_FILE=\/var\/run\/apache2/APACHE_PID_FILE=\/var\/run\/apache2\/apache2/g" /etc/apache2/envvars \
+  && chmod -R a+rwx /etc/apache2 \
+  && chmod -R a+rwx /var/lib/php/session \
   && chmod -R a+rwx /var/log/apache2 \
   && chmod -R a+rwx /var/run/apache2
 
@@ -196,6 +191,6 @@ WORKDIR /var/www/html
 
 EXPOSE 8080 8443
 
-USER default
+USER 1001
 
 ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
