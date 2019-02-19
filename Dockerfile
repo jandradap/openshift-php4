@@ -169,7 +169,8 @@ RUN mkdir -p /tmp/install/ \
   && make install \
   && rm -rf /tmp/install \
   && mkdir -p /var/lib/php/session \
-  && chown -R default:www-data /var/lib/php/
+  && chown -R default:www-data /var/lib/php/ \
+  && chmod -R a+rwx /var/lib/php/session
 
 RUN mkdir -p /etc/php4/conf.d/ \
   && echo 'date.timezone = "Europe/Madrid"' > /etc/php4/conf.d/10_timezone.ini
@@ -187,10 +188,9 @@ RUN sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=default/g" /etc/apache2/e
   && chown -R default /var/run/apache* \
   && chown -R default /etc/apache2 \
   && chown -R default /var/lib/php/session \
-	&& ln -sf /dev/stdout /var/log/apache2/access.log \
-	&& ln -sf /dev/stderr /var/log/apache2/error.log \
-	&& ln -sf /dev/null /var/log/apache2/other_vhosts_access.log \
-  && chown -R default /var/log/apache2
+  && chown -R default /var/log/apache2 \
+  && chmod -R a+rwx /var/log/apache2 \
+  && chmod -R a+rwx /var/run/apache
 
 WORKDIR /var/www/html
 
