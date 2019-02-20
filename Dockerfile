@@ -181,11 +181,11 @@ COPY config/apache/apache2.conf /etc/apache2/
 COPY config/apache/000-default /etc/apache2/sites-available/default
 COPY config/apache/ports.conf /etc/apache2/
 
-COPY code/index.php /var/www/html/
+COPY code/ /var/www/html/
 
 RUN sed -i "s/APACHE_PID_FILE=\/var\/run\/apache2/APACHE_PID_FILE=\/var\/run\/apache2\/apache2/g" /etc/apache2/envvars \
   && chmod -R a+rwx /etc/apache2 \
-  && chmod -R a+rwx /var/lib/php/session \
+  && chmod -R 777 /var/lib/php/session \
   && chmod -R a+rwx /var/log/apache2 \
   && chmod -R a+rwx /var/run/apache2
 
